@@ -86,7 +86,7 @@ def batch_quat2rotmat_np(q):
     return R.reshape((-1, 3, 3))
 
 
-def quat_angle_dif(q1, q2):
+def quat_angle_diff(q1, q2):
     """
     这里给出了两种计算四元数角度差的方法
     1. 通过四元数乘法得到两个四元数的相对四元数，然后计算相对四元数的角度
@@ -96,14 +96,14 @@ def quat_angle_dif(q1, q2):
     :return:
     """
     # 1.
-    inv_q1 = np.hstack([q1[:, :1], -q1[:, 1:]])
-    qd = quat_mult(inv_q1, q2)
-    angle = 2 * np.arctan2(np.linalg.norm(qd[:, 1:], axis=1), qd[:, 0]) / np.pi * 180
-    angle = np.minimum(angle, 360 - angle)
+    # inv_q1 = np.hstack([q1[:, :1], -q1[:, 1:]])
+    # qd = quat_mult(inv_q1, q2)
+    # angle = 2 * np.arctan2(np.linalg.norm(qd[:, 1:], axis=1), qd[:, 0]) / np.pi * 180
+    # angle = np.minimum(angle, 360 - angle)
 
     # 2.
-    # R1, R2 = batch_quat2rotmat_np(q1), batch_quat2rotmat_np(q2)
-    # res_dot = np.matmul(R1, np.transpose(R2, axes=[0, 2, 1]))
-    # trace = np.trace(res_dot, axis1=-2, axis2=-1)
-    # angle = np.arccos((trace - 1) / 2) / np.pi * 180
+    R1, R2 = batch_quat2rotmat_np(q1), batch_quat2rotmat_np(q2)
+    res_dot = np.matmul(R1, np.transpose(R2, axes=[0, 2, 1]))
+    trace = np.trace(res_dot, axis1=-2, axis2=-1)
+    angle = np.arccos(np.clip((trace - 1) / 2,-1,1)) / np.pi * 180
     return angle
