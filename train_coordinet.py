@@ -21,9 +21,9 @@ torch.autograd.set_detect_anomaly(True)
 if __name__ == '__main__':
     opt = CoordiNetOption().into_opt()
     # custom dataset
-    train_dataset = SevenScenesDataset(opt.data_root_dir, opt.scene, 'train', opt.reshape_size, opt.crop_size)
+    train_dataset = CambridgeDataset(opt.data_root_dir, opt.scene, 'train', opt.reshape_size, opt.crop_size)
     dataloader = DataLoader(train_dataset, batch_size=opt.batch_size, num_workers=16, shuffle=True)
-    valid_dataset = SevenScenesDataset(opt.data_root_dir, opt.scene, 'valid', opt.reshape_size, opt.crop_size)
+    valid_dataset = CambridgeDataset(opt.data_root_dir, opt.scene, 'valid', opt.reshape_size, opt.crop_size)
     valid_dataloader = DataLoader(valid_dataset, batch_size=opt.batch_size, num_workers=16, shuffle=False)
     loger = DataLoger(root_dir=opt.root_dir, exp_name=opt.exp_name)
     # init model
@@ -40,8 +40,9 @@ if __name__ == '__main__':
         coordinet.load_state_dict(ckpt['coordinet'])
         optimizer.load_state_dict(ckpt['optimizer'])
         epoch_steps = ckpt['epoch_steps']
-        steps += len(dataloader) * (opt.last_epoch - 1) + epoch_steps
+        steps += len(dataloader) * (opt.last_epoch-1) + epoch_steps 
         print('resume from epoch:{}, epoch_steps:{}, ckpt_path:{}'.format(opt.last_epoch, epoch_steps, opt.ckpt_path))
+    
     # train
     start_epoch = opt.last_epoch if (epoch_steps and epoch_steps % len(dataloader) != 0) else opt.last_epoch + 1
     print('len(dataloader):', len(dataloader))

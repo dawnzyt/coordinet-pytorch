@@ -72,7 +72,7 @@ if __name__ == '__main__':
                     y_q = batch_rotmat2quat_np(poses[:,:, :3].cpu().numpy())
                     t = t.detach().cpu().numpy()
                     y_t = poses[:, :,-1].cpu().numpy()*s
-                    angle_diff = np.mean(quat_angle_dif(q, y_q))
+                    angle_diff = np.mean(quat_angle_diff(q, y_q))
                     t_diff = np.mean(np.linalg.norm(t - y_t, axis=1))
                     angle_diffs.append(angle_diff)
                     t_diffs.append(t_diff)

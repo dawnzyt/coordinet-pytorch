@@ -6,12 +6,12 @@ in pytorch.
 
 More visual localization methods: [awesome-visual-localization](https://github.com/awesome-NeRF/awesome-NeRF).
 
-~~hint: project not completed yet, the performance is worse than the original paper, I'm still working on it.~~
+~~hint: the Evaluation Performance is a little bit worse than the original paper. ~~
 
 ## environments
 
 - python 3.8.10
-  single gpu is enough
+  single gpu like RTX3080 is enough
 
 ## datasets
 
@@ -65,10 +65,20 @@ python train_coordinet.py \
 
 ## results
 
+some results comparison with the original paper:
+
+<div style="text-align:center;">
+  <img src="./imgs/results.png" alt="Image" style="max-width:500px; max-height:500px;">
+  <p>my coordinet</p>
+  <img src="./imgs/gt.png" alt="Image" style="max-width:500px; max-height:500px;">
+  <p>gt</p>
+</div>
+
+comment:
+- I didn't pay a lot energey to carefully finetune the parameters。 And, these end to end deep learning methods using models like cnns, transformers, etc. are not as good as the traditional ways like hscnet, pixloc, etc. in terms of accuracy, stability, and robustness. But, they are more efficient and easier to use. 
+- Essentially, coordinet and similar end-to-end deep learning methods rely on the training set to establish an interpolation function for pose estimation. Therefore, it greatly depends on the generalization and distribution of the train set.
 
 
 ## attentions
 
 - This project doesn't implement the latter EKF part, just finish pose regressor network.
-- tips about coordinet network training:
-    - `loss_type`

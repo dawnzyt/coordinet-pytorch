@@ -8,28 +8,28 @@ class CoordiNetOption:
         self.parser = argparse.ArgumentParser()
         # basic
         self.parser.add_argument('--root_dir', type=str, default="./runs/coordinet", help='root dir of exp')
-        self.parser.add_argument('--exp_name', type=str, default='fire4')
+        self.parser.add_argument('--exp_name', type=str, default='church')
         self.parser.add_argument('--Description', type=str,
-                                 default='1. 非固定efficientnet 2. Homosc loss(bias=3) 3. 启用ColorJitter 4. train+synthesis数据集')
+                                 default='1. 非固定efficientnet 2. Homosc loss 3. 启用ColorJitter 4. train数据集')
 
         # train
-        self.parser.add_argument('--batch_size', type=int, default=24)
+        self.parser.add_argument('--batch_size', type=int, default=16)
         self.parser.add_argument('--epochs', type=int, default=250)
         self.parser.add_argument('--last_epoch', type=int, default=0, help='>0 means continuing training')
         self.parser.add_argument('--lr', type=float, default=1e-4)
-        self.parser.add_argument('--save_freq', type=int, default=268, help='save training model freq')
-        self.parser.add_argument('--log_freq', type=int, default=4, help='log loss freq')
+        self.parser.add_argument('--save_freq', type=int, default=93, help='save training model freq')
+        self.parser.add_argument('--log_freq', type=int, default=1, help='log loss freq')
         self.parser.add_argument('--num_gpus', type=int, default=1)  # maybe pytorch_lighting use
         self.parser.add_argument('--ckpt_path', type=str,
-                default='/root/zju/coordinet/runs/coordinet/fire2/ckpt_epoch73_steps50_angle19.3175_t0.6773.pkl',
+                default='/root/coordinet/runs/coordinet/church/ckpt_epoch364_steps93_angle5.8764_t1.5458.pkl',
                 help='ckpt path')
 
         # dataset
-        self.parser.add_argument('--data_root_dir', type=str, default='/root/autodl-tmp/dataset/7 scenes',
+        self.parser.add_argument('--data_root_dir', type=str, default='/root/autodl-tmp/dataset/Cambridge',
                                  help='root dir of dataset')
-        self.parser.add_argument('--scene', type=str, default='fire', help='scene name')
-        self.parser.add_argument('--reshape_size', type=int, default=240, help='reshape size')
-        self.parser.add_argument('--crop_size', type=int, default=224, help='crop size')
+        self.parser.add_argument('--scene', type=str, default='StMarysChurch', help='scene name')
+        self.parser.add_argument('--reshape_size', type=int, default=320, help='reshape size')
+        self.parser.add_argument('--crop_size', type=int, default=300, help='crop size')
 
         # coordinet model
         self.parser.add_argument('--backbone', type=str, default='efficientnet', choices=['efficientnet', 'resnet'],
@@ -48,7 +48,7 @@ class CoordiNetOption:
 
         ##############################
         ######   callbacks     #######
-        self.parser.add_argument('--lr_decay_step', type=int, default=50, help='lr decay step')
+        self.parser.add_argument('--lr_decay_step', type=int, default=100, help='lr decay step')
         self.parser.add_argument('--lr_decay_rate', type=float, default=0.1, help='lr decay rate')
 
     def into_opt(self, save_opt=True):
